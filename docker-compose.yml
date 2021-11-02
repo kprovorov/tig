@@ -34,6 +34,19 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards/:/var/lib/grafana/dashboards/
 
+  postgres:
+    image: 'postgres:14'
+    env_file: .env
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - './postgres/data:/var/lib/postgresql/data'
+      - './migration.sql:/docker-entrypoint-initdb.d/migration.sql' # run migration
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+      retries: 3
+      timeout: 5s
+
 volumes:
   grafana_data: {}
   influxdb_data: {}
