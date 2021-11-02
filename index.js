@@ -8,7 +8,7 @@ app.get('/', async (req, res) => {
 
   const client = new Client({
     user: 'admin',
-    host: '127.0.0.1',
+    host: 'postgres',
     database: 'postgres',
     password: 'admin',
     port: 5432,

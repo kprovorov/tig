@@ -1,0 +1,6 @@
+grafana
+node_modules
+postgres
+telegraf
+.git
+.idea
