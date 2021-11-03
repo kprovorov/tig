@@ -3,22 +3,22 @@ services:
   telegraf:
     image: telegraf:1.20-alpine
     volumes:
-      - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - './telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro'
     depends_on:
       - influxdb
     links:
       - influxdb
     ports:
-      - '127.0.0.1:8125:8125/udp'
+      - '8125:8125/udp'
 
   influxdb:
     image: influxdb:2.0-alpine
     env_file: .env
     ports:
-      - '127.0.0.1:8086:8086'
+      - '8086:8086'
     volumes:
-      - ./:/imports
-      - influxdb_data:/var/lib/influxdb
+      - './:/imports'
+      - './influxdb/data:/var/lib/influxdb'
 
   grafana:
     image: grafana/grafana:8.2.2
@@ -28,17 +28,17 @@ services:
     links:
       - influxdb
     ports:
-      - '127.0.0.1:3000:3000'
+      - "3000:3000"
     volumes:
-      - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
-      - ./grafana/dashboards/:/var/lib/grafana/dashboards/
+      - './grafana/data/:/var/lib/grafana'
+      - './grafana/provisioning/:/etc/grafana/provisioning/'
+      - './grafana/dashboards/:/var/lib/grafana/dashboards/'
 
   postgres:
     image: 'postgres:14-alpine'
     env_file: .env
     ports:
-      - '127.0.0.1:5432:5432'
+      - '5432:5432'
     volumes:
       - './postgres/data:/var/lib/postgresql/data'
       - './postgres/migration.sql:/docker-entrypoint-initdb.d/migration.sql' # run migration
@@ -51,7 +51,7 @@ services:
     build:
       context: .
     ports:
-      - '127.0.0.1:8080:8080'
+      - '8080:8080'
 
 volumes:
   grafana_data: {}

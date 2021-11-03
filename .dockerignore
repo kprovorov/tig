@@ -2,5 +2,6 @@ grafana
 node_modules
 postgres
 telegraf
+influxdb
 .git
 .idea
